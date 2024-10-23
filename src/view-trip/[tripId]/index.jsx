@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
 import { toast } from "sonner";
+import InfoSection from "../components/InfoSection";
+import Hotels from "../components/Hotels";
 
 function ViewTrip() {
   const { tripId } = useParams();
@@ -17,14 +19,19 @@ function ViewTrip() {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log(docSnap.data());
       setTrip(docSnap.data());
     } else {
       console.log("No such data");
       toast("No trip Found");
     }
   };
-  return <div>{tripId}</div>;
+  return (
+    <div className="p-10 md:px-20 lg:px-44 xl:px-56">
+        <InfoSection trip={trip}/>
+
+        <Hotels  trip={trip}/>
+  </div>
+  )
 }
 
 export default ViewTrip;
