@@ -66,14 +66,14 @@ function CreateTrip() {
   const SaveAiTrip = async (Tripdata) => {
 
     setLoading(true);
-    const docID = Date.now().toString();
-    await setDoc(doc(db, "AITrips", docID), {
+    const docId = Date.now().toString();
+    await setDoc(doc(db, "AITrips", docId), {
       userselection: formData,
       tripData: JSON.parse(Tripdata),
-      id: docID,
+      id: docId,
     });
     setLoading(false);
-    navigate('/view-trip/'+docID)
+    navigate('/view-trip/'+docId);
   };
 
   return (
