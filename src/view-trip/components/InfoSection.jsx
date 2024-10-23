@@ -21,7 +21,6 @@ const PHOTO_REF_URL =
   import.meta.env.VITE_GOOGLE_PLACE_API_KEY;
 function InfoSection(trip) {
   trip = trip?.trip;
-  console.log(trip);
 
   const [photoUrl, setPhotoUrl] = useState();
   const [link, setLink] = useState(window.location.href);
@@ -35,7 +34,6 @@ function InfoSection(trip) {
       textQuery: trip?.userselection?.location?.label,
     };
     const result = await GetPlaceDetails(data).then((resp) => {
-      console.log(resp.data.places[0].photos[3].name);
 
       const photoURL = PHOTO_REF_URL.replace(
         "{NAME}",

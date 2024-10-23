@@ -32,7 +32,6 @@ function CreateTrip() {
   };
 
   useEffect(() => {
-    console.log(formData);
   });
 
   const OnGenerateTrip = async () => {
@@ -58,7 +57,7 @@ function CreateTrip() {
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
 
-    console.log("--", result?.response?.text());
+
     setLoading(false);
     SaveAiTrip(result?.response?.text());
   };

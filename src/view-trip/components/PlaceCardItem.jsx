@@ -10,7 +10,6 @@ const PHOTO_REF_URL =
 
 function PlaceCardItem(place) {
     place=place?.place;
-    console.log(place);
     const [photoURL, setPhotoUrl] = useState();
 
     useEffect(() => {
@@ -22,7 +21,6 @@ function PlaceCardItem(place) {
         textQuery: place?.placeName + place.placeDetails,
       };
       const result = await GetPlaceDetails(data).then((resp) => {
-        console.log(resp.data.places[0].photos[3].name);
   
         const photoURL = PHOTO_REF_URL.replace(
           "{NAME}",
