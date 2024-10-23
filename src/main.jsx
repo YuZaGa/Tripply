@@ -28,9 +28,13 @@ const router=createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Header></Header>
-    <Toaster/>
-      <RouterProvider router={router}/>
-      <Footer></Footer>
-  </StrictMode>,
-)
+   <div className="flex flex-col min-h-screen">
+      <Header />
+      <Toaster />
+      <div className="flex-grow">
+        <RouterProvider router={router} />
+      </div>
+      <Footer /> 
+    </div>
+  </StrictMode>
+);

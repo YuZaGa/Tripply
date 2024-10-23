@@ -2,6 +2,19 @@ import { Button } from "@/components/ui/button";
 import { GetPlaceDetails } from "@/service/GlobalApi";
 import { useEffect, useState } from "react";
 import { IoIosSend } from "react-icons/io";
+import { FaRegCopy } from "react-icons/fa"; 
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const PHOTO_REF_URL =
   "https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=600&maxWidthPx=600&key=" +
@@ -11,6 +24,7 @@ function InfoSection(trip) {
   console.log(trip);
 
   const [photoUrl, setPhotoUrl] = useState();
+  const [link, setLink] = useState(window.location.href);
 
   useEffect(() => {
     trip && GetPlacePhoto();
@@ -28,6 +42,14 @@ function InfoSection(trip) {
         resp.data.places[0].photos[3].name
       );
       setPhotoUrl(photoURL);
+    });
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(link).then(() => {
+      alert("Link copied to clipboard!");
+    }).catch((err) => {
+      console.error("Failed to copy: ", err);
     });
   };
   return (
@@ -56,9 +78,42 @@ function InfoSection(trip) {
             </h2>
           </div>
         </div>
-        <Button>
-          <IoIosSend />
-        </Button>
+        <Dialog>
+      <DialogTrigger asChild>
+        <Button ><IoIosSend /></Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Share link</DialogTitle>
+          <DialogDescription>
+            Anyone who has this link will be able to view this.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex items-center space-x-2">
+          <div className="grid flex-1 gap-2">
+            <Label htmlFor="link" className="sr-only">
+              Link
+            </Label>
+            <Input
+              id="link"
+              defaultValue={link}
+              readOnly
+            />
+          </div>
+          <Button size="sm" className="px-3" onClick={handleCopy}>
+            <span className=""><FaRegCopy/></span>
+            
+          </Button>
+        </div>
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
       </div>
     </div>
   );
