@@ -9,6 +9,12 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZbypuv-9VNtHjPNbvggs3vqTIJAfHP-s&libraries=places"></script>
+    <script type="module">
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_PLACE_API_KEY}&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    </script>
   </body>
 </html>
