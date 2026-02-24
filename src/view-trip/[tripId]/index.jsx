@@ -13,6 +13,7 @@ function ViewTrip() {
   const [trip, setTrip] = useState(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [activeDay, setActiveDay] = useState(1);
 
   useEffect(() => {
     if (tripId) {
@@ -61,12 +62,12 @@ function ViewTrip() {
 
           {/* Left Sidebar: Info & Weather */}
           <div className="lg:col-span-3 lg:sticky lg:top-28 space-y-8">
-            <InfoSection trip={trip} />
+            <InfoSection trip={trip} activeDay={activeDay} setActiveDay={setActiveDay} />
           </div>
 
           {/* Center: Itinerary Timeline */}
           <div className="lg:col-span-6 space-y-12 pb-32">
-            <Itinerary trip={trip} />
+            <Itinerary trip={trip} setActiveDay={setActiveDay} />
           </div>
 
           {/* Right Sidebar: Hotels & Map */}

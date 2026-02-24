@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { GetPlaceDetails } from "@/service/GlobalApi";
 
 const PHOTO_REF_URL =
@@ -188,22 +188,54 @@ function TimelineCard({ item }) {
     );
 }
 
-function Itinerary({ trip }) {
+function Itinerary({ trip, setActiveDay }) {
     const itinerary = trip?.tripData?.itinerary || [];
+    const dayRefs = useRef({});
+
+    // IntersectionObserver to detect which day is in view
+    useEffect(() => {
+        if (itinerary.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const dayNum = parseInt(entry.target.dataset.day, 10);
+                        if (!isNaN(dayNum) && setActiveDay) {
+                            setActiveDay(dayNum);
+                        }
+                    }
+                });
+            },
+            { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
+        );
+
+        Object.values(dayRefs.current).forEach((el) => {
+            if (el) observer.observe(el);
+        });
+
+        return () => observer.disconnect();
+    }, [itinerary, setActiveDay]);
 
     if (itinerary.length === 0) return null;
 
     return (
         <div className="space-y-12">
             {itinerary.map((day, dayIndex) => (
-                <div key={dayIndex} className="scroll-mt-32" id={"day" + day.day}>
+                <div
+                    key={dayIndex}
+                    className="scroll-mt-32"
+                    id={"day" + day.day}
+                    data-day={day.day}
+                    ref={(el) => (dayRefs.current[day.day] = el)}
+                >
                     {/* Day Header */}
                     <div className="flex items-baseline justify-between mb-8 border-b border-stone-200 pb-4">
                         <div>
                             <span className="block text-xs font-bold text-burnt-orange uppercase tracking-[0.2em] mb-1">
                                 Day {dayToWord(day.day)}
                             </span>
-                            <h2 className={"font-serif font-bold text-4xl text-charcoal" + (dayIndex > 0 ? " opacity-60" : "")}>
+                            <h2 className="font-serif font-bold text-4xl text-charcoal">
                                 {day.date}
                             </h2>
                         </div>
@@ -215,7 +247,7 @@ function Itinerary({ trip }) {
                     </div>
 
                     {/* Timeline Items */}
-                    <div className={"space-y-6" + (dayIndex > 0 ? " opacity-80 hover:opacity-100 transition-opacity duration-500" : "")}>
+                    <div className="space-y-6">
                         {day.plan?.map((item, itemIndex) => (
                             <TimelineCard key={itemIndex} item={item} />
                         ))}
