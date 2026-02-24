@@ -56,7 +56,7 @@ function Hero() {
 
           {/* Tokyo Card */}
           <div
-            className="absolute top-[5%] lg:top-[10%] left-[-2%] lg:left-[2%] xl:left-[8%] w-[180px] sm:w-[220px] lg:w-[300px] opacity-70 lg:opacity-100"
+            className="absolute top-[5%] lg:top-[10%] left-[8%] sm:left-[8%] lg:left-[2%] xl:left-[8%] w-[180px] sm:w-[220px] lg:w-[300px] opacity-70 lg:opacity-100"
             style={{ transform: `translateX(${offset.x * 0.03 * 100}px) translateY(${offset.y * 0.03 * 100}px)` }}
           >
             <div className="bg-white p-3 transform -rotate-3 hover:rotate-0 transition-transform duration-500 animate-float pointer-events-auto cursor-default shadow-xl">
