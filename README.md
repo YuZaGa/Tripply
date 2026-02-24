@@ -22,20 +22,24 @@ Tripply transforms the way you plan travel. Tell it where you want to go, your b
 |---|---|
 | **Framework** | Next.js 16 (App Router) |
 | **AI Engine** | Google Gemini (via server-side API route) |
+| **Auth** | Firebase Auth (Google Sign-In) |
 | **Database** | Firebase Firestore |
 | **Styling** | Tailwind CSS + custom design system |
 | **Places & Photos** | Google Places API |
 | **Deployment** | Vercel |
 | **Analytics** | Vercel Analytics |
 
-## 🔐 Security
+## 🔐 Security & Usage Limits
 
-API keys are handled securely:
-
+**API keys** are handled securely:
 - **Gemini & Places API keys** → Server-only (Next.js API routes, never exposed to browser)
-- **Firebase key** → Client-side (safe by design, protected by Firestore security rules)
-- **Google Places client key** → Protected with HTTP referrer restrictions
-- **Rate limiting** on all API routes to prevent abuse
+- **Firebase key** → Client-side (safe by design, protected by Firestore rules)
+- **Rate limiting** on all API routes
+
+**Trip generation limits** (tracked in Firestore, resets monthly):
+| | Anonymous | Signed In |
+|---|---|---|
+| Trips/month | 3 | 7 |
 
 ## 🚀 Getting Started
 
@@ -43,7 +47,7 @@ API keys are handled securely:
 
 - Node.js 18+
 - Google Cloud account (Gemini API + Places API enabled)
-- Firebase project
+- Firebase project (Auth + Firestore)
 
 ### Installation
 
@@ -63,6 +67,10 @@ GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-2.5-flash-lite
 GOOGLE_PLACES_API_KEY=your_google_places_api_key
 
+# Firebase Admin SDK (server-side token verification)
+FIREBASE_ADMIN_CLIENT_EMAIL=your_service_account_email
+FIREBASE_ADMIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+
 # Client-side (bundled into browser JS)
 NEXT_PUBLIC_GOOGLE_PLACE_API_KEY=your_google_places_api_key
 NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
@@ -80,16 +88,25 @@ npm start         # Start production server
 
 ```
 app/
-├── layout.jsx                  # Root layout (Header, Footer, fonts)
+├── layout.jsx                  # Root layout (Header, Footer, AuthProvider)
 ├── page.jsx                    # Landing page
 ├── create-trip/page.jsx        # Trip creation form
 ├── view-trip/[tripId]/page.jsx # Trip dashboard
 └── api/
-    ├── generate-trip/route.js  # Gemini AI proxy (server-only)
-    └── search-places/route.js  # Places API proxy (server-only)
-components/                     # All UI components
-service/                        # Firebase config, API clients
-constants/                      # Options, prompts, dummy data
+    ├── generate-trip/route.js  # Gemini AI proxy + usage enforcement
+    ├── search-places/route.js  # Places API proxy
+    └── usage/route.js          # Usage stats for trip counter
+components/
+├── AuthContext.jsx             # Google Sign-In context
+├── Header.jsx                  # Nav with auth + trip counter badge
+├── CreateTrip.jsx              # Trip creation form
+├── ViewTrip.jsx                # Trip dashboard
+└── ...                         # UI components
+service/
+├── firebaseConfig.jsx          # Firebase client SDK
+├── usageService.js             # Server-side usage tracking (Firebase Admin)
+├── AIModel.jsx                 # Gemini API client
+└── GlobalApi.jsx               # Places API client
 ```
 
 ## 📄 License
