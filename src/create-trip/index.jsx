@@ -6,24 +6,28 @@ import {
   BudgetOptionsList,
   AI_PROMPT,
 } from "@/constants/options.jsx";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { chatSession } from "@/service/AIModel";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from "date-fns";
+import LoadingScreen from "@/components/ui/custom/LoadingScreen";
 
 
 function CreateTrip() {
   const [place, setPlace] = useState();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    noOfDays: 3
+  });
   const [loading, setLoading] = useState(false);
-
-  // State for new elements
-  const [travelStyle, setTravelStyle] = useState('curator');
-  const [interests, setInterests] = useState(['Architecture', 'Modern Art', 'Coffee Culture']);
-  const [pace, setPace] = useState(40);
+  const [travelStyle, setTravelStyle] = useState("");
+  const [interests, setInterests] = useState([]);
+  const [pace, setPace] = useState(50);
+  const [startDate, setStartDate] = useState(null);
 
   const navigate = useNavigate();
 
@@ -43,13 +47,14 @@ function CreateTrip() {
   };
 
   const OnGenerateTrip = async () => {
-    if (formData?.noOfDays > 10) {
-      toast("Maximum Number of Days allowed is 10!");
-      return;
-    }
-
-    if (!formData?.location || !formData?.noOfDays || !formData?.budget || !formData?.traveler) {
-      toast("Please fill all the details!");
+    if (
+      (formData?.noOfDays > 20 && !formData?.location) ||
+      !formData?.budget ||
+      !formData?.traveler ||
+      !travelStyle ||
+      !startDate
+    ) {
+      toast("Please fill all details & choose a Start Date.");
       return;
     }
 
@@ -59,22 +64,22 @@ function CreateTrip() {
       "{location}",
       formData?.location?.label
     )
-      .replace("{totalDays}", formData?.noOfDays)
+      .replace("{totalDays}", formData?.noOfDays || 3)
       .replace("{travler}", formData?.traveler)
       .replace("{budget}", formData?.budget)
-      .replace("{totalDays}", formData?.noOfDays);
+      .replace("{travelStyle}", travelStyle)
+      .replace("{interests}", interests.length > 0 ? interests.join(", ") : "general sightseeing")
+      .replace("{pace}", pace)
+      .replace("{startDate}", format(startDate, 'MMMM do, yyyy'));
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
 
-    setLoading(false);
     SaveAiTrip(result?.response?.text());
   };
 
   const SaveAiTrip = async (Tripdata) => {
-    setLoading(true);
     const docId = Date.now().toString();
     await setDoc(doc(db, "AITrips", docId), {
-      // Include new elements in saved data for future use
       userselection: {
         ...formData,
         travelStyle,
@@ -92,6 +97,10 @@ function CreateTrip() {
     "Architecture", "Fine Dining", "Modern Art", "Hiking", "Nightlife",
     "Photography", "Coffee Culture", "Wellness & Spa", "History"
   ];
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="bg-cream-50 text-charcoal font-sans antialiased min-h-screen pt-24 pb-20 px-6">
@@ -114,68 +123,80 @@ function CreateTrip() {
           </p>
         </div>
 
-        <div className="space-y-20">
-          {/* Section 1: Location & Duration */}
-          <section>
+        <div className="space-y-16">
+          <section className="space-y-8">
             <div className="flex items-center justify-between mb-8 border-b border-charcoal/10 pb-4">
-              <h2 className="font-serif text-2xl text-charcoal italic">01. Destination &amp; Time</h2>
-              <span className="text-xs uppercase tracking-widest text-slate-muted">Where &amp; When</span>
+              <h2 className="font-serif text-2xl text-charcoal italic">01. The Basics</h2>
+              <span className="text-xs uppercase tracking-widest text-slate-muted">Where & When</span>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-              <div className="md:col-span-2 space-y-2">
-                <label className="block text-sm font-medium text-charcoal uppercase tracking-widest text-xs mb-2">Where to?</label>
-                <div className="relative group">
-                  <GooglePlacesAutocomplete
-                    apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
-                    selectProps={{
-                      place,
-                      onChange: (v) => {
-                        setPlace(v);
-                        handleInputChange("location", v);
-                      },
-                      styles: {
-                        control: (provided) => ({
-                          ...provided,
-                          border: 'none',
-                          borderBottom: '2px solid #e2e8f0',
-                          borderRadius: 0,
-                          backgroundColor: 'transparent',
-                          fontFamily: 'Playfair Display, serif',
-                          fontSize: '1.25rem',
-                          padding: '0.5rem 0 0.5rem 2rem',
-                          boxShadow: 'none',
-                          '&:hover': {
-                            borderColor: '#EB5E28'
-                          }
-                        }),
-                        input: (provided) => ({ ...provided, color: '#1A1A1A' }),
-                        singleValue: (provided) => ({ ...provided, color: '#1A1A1A' }),
-                        placeholder: (provided) => ({ ...provided, fontStyle: 'italic', color: '#cbd5e1' })
-                      },
-                      placeholder: "Search destinations (e.g. Kyoto, Amalfi Coast)"
-                    }}
+
+            <div className="space-y-3">
+              <h2 className="text-sm font-medium uppercase tracking-wider text-charcoal">Where to?</h2>
+              <GooglePlacesAutocomplete
+                apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
+                selectProps={{
+                  placeholder: "Enter destination city...",
+                  onChange: (v) => {
+                    setPlace(v);
+                    handleInputChange("location", v);
+                  },
+                  styles: {
+                    control: (provided) => ({
+                      ...provided,
+                      padding: '12px',
+                      border: '1px solid #E2E8F0',
+                      borderRadius: '4px',
+                      fontFamily: 'Inter',
+                      fontSize: '1rem',
+                      backgroundColor: 'rgba(255,255,255,0.7)',
+                    })
+                  }
+                }}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3 flex flex-col">
+                <h2 className="text-sm font-medium uppercase tracking-wider text-charcoal">Start Date</h2>
+                <div className="h-full">
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    minDate={new Date()}
+                    placeholderText="Select your departure date"
+                    wrapperClassName="w-full"
+                    className="w-full p-4 h-[62px] border border-slate-200 rounded-sm font-sans text-charcoal bg-white/70 focus:outline-none focus:border-burnt-orange focus:ring-1 focus:ring-burnt-orange"
                   />
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none material-symbols-outlined z-10">search</span>
                 </div>
               </div>
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-charcoal uppercase tracking-widest text-xs mb-2">Duration</label>
-                <div className="relative group">
-                  <input
-                    className="w-full bg-transparent border-0 border-b-2 border-slate-200 focus:border-burnt-orange focus:ring-0 text-xl font-serif py-4 px-4 placeholder:text-slate-300 transition-all duration-300 shadow-none outline-none"
-                    placeholder="Ex. 7"
-                    type="number"
-                    value={formData?.noOfDays || ''}
-                    onChange={(e) => handleInputChange("noOfDays", e.target.value)}
-                  />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-400 font-sans pointer-events-none">Days</span>
+
+              <div className="space-y-3">
+                <h2 className="text-sm font-medium uppercase tracking-wider text-charcoal">Duration</h2>
+                <div className="flex items-center justify-between bg-white/70 border border-slate-200 rounded-sm p-4 h-[62px]">
+                  <span className="text-xs uppercase font-medium tracking-widest text-slate-muted">Days</span>
+                  <div className="flex items-center space-x-6">
+                    <button
+                      onClick={() => handleInputChange("noOfDays", Math.max(1, (formData.noOfDays || 3) - 1))}
+                      className="w-8 h-8 rounded-full border border-charcoal/30 flex items-center justify-center text-charcoal hover:border-burnt-orange hover:text-burnt-orange transition-colors"
+                    >
+                      <span className="text-xl font-light">-</span>
+                    </button>
+                    <span className="font-serif text-2xl text-charcoal min-w-[30px] text-center">
+                      {formData.noOfDays || 3}
+                    </span>
+                    <button
+                      onClick={() => handleInputChange("noOfDays", (formData.noOfDays || 3) + 1)}
+                      className="w-8 h-8 rounded-full border border-charcoal/30 flex items-center justify-center text-charcoal hover:border-burnt-orange hover:text-burnt-orange transition-colors"
+                    >
+                      <span className="text-xl font-light">+</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* Section 2: Budget */}
-          <section>
+          <section className="space-y-8">
             <div className="flex items-center justify-between mb-8 border-b border-charcoal/10 pb-4">
               <h2 className="font-serif text-2xl text-charcoal italic">02. Budget</h2>
               <span className="text-xs uppercase tracking-widest text-slate-muted">Per Person</span>
@@ -184,18 +205,15 @@ function CreateTrip() {
               {BudgetOptionsList.map((item, index) => (
                 <label key={index} className="cursor-pointer relative group block">
                   <input
-                    className="sr-only"
+                    className="sr-only option-card-radio"
                     name="budget"
                     type="radio"
                     value={item.title}
                     checked={formData?.budget === item.title}
                     onChange={() => handleInputChange("budget", item.title)}
                   />
-                  <div className={`p-6 border rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-3 ${formData?.budget === item.title
-                      ? 'border-burnt-orange bg-white shadow-md'
-                      : 'border-transparent bg-white/50 shadow-sm'
-                    }`}>
-                    <div className={`mb-1 transition-transform duration-300 ${formData?.budget === item.title ? 'scale-110' : ''}`}>
+                  <div className="p-6 bg-white/50 border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-3 shadow-sm">
+                    <div className="mb-1 emoji-icon transition-transform duration-300">
                       <span className="material-symbols-outlined text-[32px] text-burnt-orange">{item.icon}</span>
                     </div>
                     <h3 className="font-serif text-lg text-charcoal">{item.title}</h3>
@@ -204,10 +222,9 @@ function CreateTrip() {
                 </label>
               ))}
             </div>
-          </section>
+          </section >
 
-          {/* Section 3: Travel Companions */}
-          <section>
+          < section >
             <div className="flex items-center justify-between mb-8 border-b border-charcoal/10 pb-4">
               <h2 className="font-serif text-2xl text-charcoal italic">03. Travel Companions</h2>
               <span className="text-xs uppercase tracking-widest text-slate-muted">Who's Coming?</span>
@@ -216,18 +233,15 @@ function CreateTrip() {
               {SelectTravelsList.map((item, index) => (
                 <label key={index} className="cursor-pointer relative group block">
                   <input
-                    className="sr-only"
+                    className="sr-only option-card-radio"
                     name="companion"
                     type="radio"
                     value={item.people}
                     checked={formData?.traveler === item.people}
                     onChange={() => handleInputChange("traveler", item.people)}
                   />
-                  <div className={`p-5 border rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-2 ${formData?.traveler === item.people
-                      ? 'border-burnt-orange bg-white shadow-md'
-                      : 'border-transparent bg-white/50 shadow-sm'
-                    }`}>
-                    <div className={`mb-1 transition-transform duration-300 ${formData?.traveler === item.people ? 'scale-110' : ''}`}>
+                  <div className="p-5 bg-white/50 border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-2 shadow-sm">
+                    <div className="mb-1 emoji-icon transition-transform duration-300">
                       <span className="material-symbols-outlined text-[28px] text-burnt-orange">{item.icon}</span>
                     </div>
                     <h3 className="font-serif text-base text-charcoal">{item.title}</h3>
@@ -236,10 +250,9 @@ function CreateTrip() {
                 </label>
               ))}
             </div>
-          </section>
+          </section >
 
-          {/* Section 4: Travel Style */}
-          <section>
+          < section >
             <div className="flex items-center justify-between mb-8 border-b border-charcoal/10 pb-4">
               <h2 className="font-serif text-2xl text-charcoal italic">04. Travel Style</h2>
               <span className="text-xs uppercase tracking-widest text-slate-muted">Select One</span>
@@ -276,10 +289,9 @@ function CreateTrip() {
                 </label>
               ))}
             </div>
-          </section>
+          </section >
 
-          {/* Section 5: Specific Interests */}
-          <section>
+          < section >
             <div className="flex items-center justify-between mb-8 border-b border-charcoal/10 pb-4">
               <h2 className="font-serif text-2xl text-charcoal italic">05. Specific Interests</h2>
               <span className="text-xs uppercase tracking-widest text-slate-muted">Select Multiple</span>
@@ -299,10 +311,9 @@ function CreateTrip() {
                 </label>
               ))}
             </div>
-          </section>
+          </section >
 
-          {/* Section 6: Travel Pace */}
-          <section>
+          < section >
             <div className="flex items-center justify-between mb-8 border-b border-charcoal/10 pb-4">
               <h2 className="font-serif text-2xl text-charcoal italic">06. Travel Pace</h2>
               <span className="text-xs uppercase tracking-widest text-slate-muted">Intensity</span>
@@ -322,7 +333,7 @@ function CreateTrip() {
                 <span>Intense</span>
               </div>
             </div>
-          </section>
+          </section >
 
           <div className="pt-8 flex flex-col items-center">
             <button

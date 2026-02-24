@@ -1,0 +1,222 @@
+{
+    "tripDetails": {
+        "location": "Tokyo, Japan",
+        "theme": "Urban Canvas",
+        "estimatedBudget": "Moderate (USD $750 - $1200 per person, excluding flights, based on current exchange rates and choices)",
+        "weatherForecast": {
+            "temperature": "68°F (20°C)",
+            "condition": "Partly Cloudy • Moderate UV"
+        }
+    },
+    "hotels": [
+        {
+            "hotelName": "Park Hyatt Tokyo",
+            "hotelAddress": "3-7-1-2 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-1055, Japan",
+            "price": "USD $450 - $700 per night",
+            "hotelImageUrl": "https://www.parkhyatttokyo.com/en/tokyo/accommodation.html",
+            "geoCoordinates": "35.6908, 139.6917",
+            "rating": 4.5,
+            "description": "Iconic luxury hotel offering stunning city views, featured in the movie 'Lost in Translation'. Offers excellent service and multiple dining options."
+        },
+        {
+            "hotelName": "Hotel Gracery Shinjuku",
+            "hotelAddress": "1 Chome-19-1 Kabukicho, Shinjuku City, Tokyo 160-8466, Japan",
+            "price": "USD $150 - $300 per night",
+            "hotelImageUrl": "https://shinjuku.gracery.com/en/",
+            "geoCoordinates": "35.6934, 139.7001",
+            "rating": 4,
+            "description": "Known for the giant Godzilla head on its roof, offering comfortable rooms and a unique experience in the heart of Shinjuku's entertainment district."
+        }
+    ],
+    "itinerary": [
+        {
+            "day": 1,
+            "date": "Thursday, Oct 12",
+            "theme": "Arrival & Shinjuku's Skyline",
+            "activityLevel": "Medium Activity",
+            "plan": [
+                {
+                    "time": "12:00 PM",
+                    "category": "Arrival & Transport",
+                    "placeName": "Narita (NRT) or Haneda (HND) Airport to Hotel",
+                    "placeDetails": "Take the Narita Express or Limousine Bus (NRT) or Tokyo Monorail/Keikyu Line (HND) to your hotel in Shinjuku. Consider using a Suica or Pasmo card for easy travel.",
+                    "placeImageUrl": "https://www.japan-guide.com/g1/1000_0146_1_2.jpg",
+                    "geoCoordinates": "Varies",
+                    "ticketPricing": "Varies (approx. $20-$40 per person)",
+                    "rating": 4,
+                    "timeToTravel": "1.5 - 2 hours"
+                },
+                {
+                    "time": "03:00 PM",
+                    "category": "Landmark",
+                    "placeName": "Tokyo Metropolitan Government Building",
+                    "placeDetails": "Free observation decks offering panoramic city views. Great for an introductory view of Tokyo.",
+                    "placeImageUrl": "https://www.metro.tokyo.lg.jp/english/about/facilities/index.html",
+                    "geoCoordinates": "35.6904, 139.6918",
+                    "ticketPricing": "Free",
+                    "rating": 4,
+                    "timeToTravel": "10 minutes from Hotel"
+                },
+                {
+                    "time": "05:00 PM",
+                    "category": "Activity",
+                    "placeName": "Shinjuku Gyoen National Garden",
+                    "placeDetails": "A beautiful blend of Japanese, English, and French garden styles. A tranquil escape from the bustling city.",
+                    "placeImageUrl": "https://www.env.go.jp/garden/shinjukugyoen/english/",
+                    "geoCoordinates": "35.6841, 139.7078",
+                    "ticketPricing": "JPY 500 per person (approx. $3.50)",
+                    "rating": 4.5,
+                    "timeToTravel": "15 minutes"
+                },
+                {
+                    "time": "07:00 PM",
+                    "category": "Culinary",
+                    "placeName": "Omoide Yokocho (Memory Lane)",
+                    "placeDetails": "A historic alley known for its small yakitori and ramen stalls. Experience authentic Japanese street food.",
+                    "placeImageUrl": "https://www.japan-guide.com/g1/1000_0180_1_2.jpg",
+                    "geoCoordinates": "35.6934, 139.7001",
+                    "ticketPricing": "Varies (approx. $20-$40 per person)",
+                    "rating": 4,
+                    "timeToTravel": "10 minutes"
+                }
+            ]
+        },
+        {
+            "day": 2,
+            "date": "Friday, Oct 13",
+            "theme": "Art & Culture in Shibuya & Harajuku",
+            "activityLevel": "Medium Activity",
+            "plan": [
+                {
+                    "time": "09:00 AM",
+                    "category": "Culture",
+                    "placeName": "Meiji Jingu Shrine",
+                    "placeDetails": "A peaceful oasis dedicated to Emperor Meiji and Empress Shoken. Offers a serene start to the day.",
+                    "placeImageUrl": "https://www.meijijingu.or.jp/english/",
+                    "geoCoordinates": "35.6766, 139.7029",
+                    "ticketPricing": "Free",
+                    "rating": 4.5,
+                    "timeToTravel": "20 minutes from hotel"
+                },
+                {
+                    "time": "10:30 AM",
+                    "category": "Activity",
+                    "placeName": "Harajuku's Takeshita Street",
+                    "placeDetails": "Explore the vibrant and colorful Takeshita Street, known for its unique fashion, street food, and youthful energy.",
+                    "placeImageUrl": "https://www.gotokyo.org/en/spot/123/index.html",
+                    "geoCoordinates": "35.6738, 139.7029",
+                    "ticketPricing": "Free (shopping & food costs vary)",
+                    "rating": 4,
+                    "timeToTravel": "10 minutes"
+                },
+                {
+                    "time": "12:30 PM",
+                    "category": "Culinary",
+                    "placeName": "Lunch in Shibuya - Try ramen or local cafe",
+                    "placeDetails": "Explore Shibuya for various restaurants, choosing local ramen or a cafe for lunch.",
+                    "placeImageUrl": "https://www.gotokyo.org/en/spot/135/index.html",
+                    "geoCoordinates": "35.6606, 139.7008",
+                    "ticketPricing": "Varies (approx. $20-$30 per person)",
+                    "rating": 4,
+                    "timeToTravel": "15 minutes"
+                },
+                {
+                    "time": "02:00 PM",
+                    "category": "Landmark",
+                    "placeName": "Shibuya Crossing & Hachiko Statue",
+                    "placeDetails": "Experience the iconic Shibuya scramble crossing and visit the famous Hachiko statue.",
+                    "placeImageUrl": "https://www.gotokyo.org/en/spot/135/index.html",
+                    "geoCoordinates": "35.6603, 139.7023",
+                    "ticketPricing": "Free",
+                    "rating": 4.5,
+                    "timeToTravel": "5 minutes"
+                },
+                {
+                    "time": "03:30 PM",
+                    "category": "Modern Art",
+                    "placeName": "Mori Art Museum (Roppongi)",
+                    "placeDetails": "Contemporary art exhibitions with stunning city views. Located in Roppongi Hills.",
+                    "placeImageUrl": "https://www.mori.art.museum/en/",
+                    "geoCoordinates": "35.6657, 139.7314",
+                    "ticketPricing": "JPY 2200 (approx. $15.50)",
+                    "rating": 4,
+                    "timeToTravel": "20 minutes"
+                },
+                {
+                    "time": "06:00 PM",
+                    "category": "Fine Dining",
+                    "placeName": "Dinner in Roppongi - Restaurant with city view.",
+                    "placeDetails": "Enjoy a fine dining experience with a view of Tokyo's night skyline.",
+                    "placeImageUrl": "https://www.gotokyo.org/en/spot/135/index.html",
+                    "geoCoordinates": "Varies",
+                    "ticketPricing": "Varies (approx. $75-$200 per person)",
+                    "rating": 4.5,
+                    "timeToTravel": "10 minutes"
+                }
+            ]
+        },
+        {
+            "day": 3,
+            "date": "Saturday, Oct 14",
+            "theme": "Historical Tokyo & Departure",
+            "activityLevel": "Medium Activity",
+            "plan": [
+                {
+                    "time": "09:00 AM",
+                    "category": "Culture",
+                    "placeName": "Tsukiji Outer Market",
+                    "placeDetails": "Explore the vibrant Tsukiji Outer Market for fresh seafood, breakfast, and local delicacies.",
+                    "placeImageUrl": "https://www.tsukijigawa.com/english/",
+                    "geoCoordinates": "35.6678, 139.7709",
+                    "ticketPricing": "Varies (food costs vary)",
+                    "rating": 4.5,
+                    "timeToTravel": "30 minutes from Hotel"
+                },
+                {
+                    "time": "11:00 AM",
+                    "category": "Culture",
+                    "placeName": "Senso-ji Temple & Nakamise-dori",
+                    "placeDetails": "Visit the oldest temple in Tokyo and browse the traditional shops along Nakamise-dori.",
+                    "placeImageUrl": "https://www.senso-ji.jp/english/",
+                    "geoCoordinates": "35.7147, 139.7967",
+                    "ticketPricing": "Free (shopping & food costs vary)",
+                    "rating": 4.5,
+                    "timeToTravel": "20 minutes"
+                },
+                {
+                    "time": "01:00 PM",
+                    "category": "Culinary",
+                    "placeName": "Lunch near Asakusa - try tempura or soba",
+                    "placeDetails": "Find a good restaurant for lunch in Asakusa",
+                    "placeImageUrl": "https://www.gotokyo.org/en/spot/125/index.html",
+                    "geoCoordinates": "Varies",
+                    "ticketPricing": "Varies (approx. $25-$45 per person)",
+                    "rating": 4,
+                    "timeToTravel": "5 minutes"
+                },
+                {
+                    "time": "02:30 PM",
+                    "category": "Architecture",
+                    "placeName": "Tokyo National Museum",
+                    "placeDetails": "Explore the largest art museum in Japan, displaying a comprehensive collection of Japanese art and cultural objects.",
+                    "placeImageUrl": "https://www.tnm.jp/?lang=en",
+                    "geoCoordinates": "35.7160, 139.7766",
+                    "ticketPricing": "JPY 1000 (approx. $7)",
+                    "rating": 4.5,
+                    "timeToTravel": "15 minutes"
+                },
+                {
+                    "time": "05:00 PM",
+                    "category": "Transport",
+                    "placeName": "Travel to Airport",
+                    "placeDetails": "Head to Narita (NRT) or Haneda (HND) airport for your flight.",
+                    "placeImageUrl": "Varies",
+                    "geoCoordinates": "Varies",
+                    "ticketPricing": "Varies (approx. $20-$40 per person)",
+                    "rating": 4,
+                    "timeToTravel": "1.5 - 2 hours"
+                }
+            ]
+        }
+    ]
+}

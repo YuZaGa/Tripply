@@ -54,4 +54,49 @@ export const BudgetOptionsList = [
 ];
 
 
-export const AI_PROMPT = 'Generate Travel Plan for Location: {location}, for {totalDays} Days for {travler} with a {budget} budget. Give me a Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, Time to travel each of the location for {totalDays} days with each day plan with best time to visit in JSON format.'
+export const AI_PROMPT = `Generate Travel Plan for Location: {location}, for {totalDays} Days for {travler} with a {budget} budget. The trip starts on {startDate}. The traveler's style is '{travelStyle}' with a travel pace of '{pace}/100', and they have specific interests in: {interests}. 
+
+Return the response EXACTLY in the following JSON format structure, with no additional markdown formatting, just the raw JSON string:
+{
+  "tripDetails": {
+    "location": "string",
+    "theme": "string (a catchy 2-word title for the trip)",
+    "estimatedBudget": "string",
+    "weatherForecast": {
+      "temperature": "string (e.g., 65°F or 18°C)",
+      "condition": "string (e.g., Partly Cloudy • High UV)"
+    }
+  },
+  "hotels": [
+    {
+      "hotelName": "string",
+      "hotelAddress": "string",
+      "price": "string",
+      "hotelImageUrl": "string",
+      "geoCoordinates": "latitude,longitude",
+      "rating": "number",
+      "description": "string"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": "number",
+      "date": "string (e.g., Thursday, Oct 12 based on the startDate provided)",
+      "theme": "string (e.g., Arrival & City Exploration)",
+      "activityLevel": "string (e.g., Light Activity, Medium Activity)",
+      "plan": [
+        {
+          "time": "string (e.g. 09:00 AM)",
+          "category": "string (e.g., Transport, Culinary, Landmark, Culture, Activity)",
+          "placeName": "string",
+          "placeDetails": "string",
+          "placeImageUrl": "string",
+          "geoCoordinates": "latitude,longitude",
+          "ticketPricing": "string",
+          "rating": "number",
+          "timeToTravel": "string"
+        }
+      ]
+    }
+  ]
+}`
