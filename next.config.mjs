@@ -20,6 +20,8 @@ const nextConfig = {
             },
         ],
     },
+    // Prevent firebase-admin (server-only) from being bundled into client
+    serverExternalPackages: ["firebase-admin"],
 };
 
 export default nextConfig;

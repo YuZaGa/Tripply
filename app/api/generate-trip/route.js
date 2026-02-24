@@ -1,37 +1,39 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
+import { verifyToken, checkUsage, incrementUsage } from "@/service/usageService";
 
 // Allow up to 60s for Gemini to respond (Vercel Hobby plan max)
 export const maxDuration = 60;
 
-// Simple in-memory rate limiter (resets on cold start)
-const rateLimitMap = new Map();
-const RATE_LIMIT = 5;
-const RATE_WINDOW_MS = 60 * 60 * 1000;
-
-function checkRateLimit(ip) {
-    const now = Date.now();
-    const entry = rateLimitMap.get(ip);
-    if (!entry || now - entry.windowStart > RATE_WINDOW_MS) {
-        rateLimitMap.set(ip, { windowStart: now, count: 1 });
-        return true;
-    }
-    if (entry.count >= RATE_LIMIT) return false;
-    entry.count++;
-    return true;
-}
-
 export async function POST(request) {
+    // --- Auth & Usage Check ---
+    const authHeader = request.headers.get("authorization");
+    const uid = await verifyToken(authHeader);
     const ip =
         request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 
-    if (process.env.NODE_ENV === "production" && !checkRateLimit(ip)) {
-        return NextResponse.json(
-            { error: "Rate limit exceeded. Maximum 5 trip generations per hour." },
-            { status: 429 }
-        );
+    const identifier = uid || ip;
+    const isAuthenticated = !!uid;
+
+    // Check usage limits (skip in dev)
+    if (process.env.NODE_ENV === "production") {
+        const usage = await checkUsage(identifier, isAuthenticated);
+        if (!usage.allowed) {
+            return NextResponse.json(
+                {
+                    error: isAuthenticated
+                        ? "Monthly limit reached (7/7 trips). Resets next month."
+                        : "Free limit reached (3/3 trips). Sign in for 7 trips/month!",
+                    remaining: 0,
+                    limit: usage.limit,
+                    needsAuth: !isAuthenticated,
+                },
+                { status: 429 }
+            );
+        }
     }
 
+    // --- Input Validation ---
     const { prompt } = await request.json();
 
     if (!prompt || typeof prompt !== "string") {
@@ -48,6 +50,7 @@ export async function POST(request) {
         );
     }
 
+    // --- Gemini Call ---
     try {
         const apiKey = process.env.GEMINI_API_KEY;
         const modelStr = process.env.GEMINI_MODEL || "gemini-2.5-flash-lite";
@@ -91,6 +94,9 @@ export async function POST(request) {
 
         const result = await chatSession.sendMessage(prompt);
         const text = result.response.text();
+
+        // Increment usage AFTER successful generation
+        await incrementUsage(identifier, isAuthenticated);
 
         return NextResponse.json({ result: text });
     } catch (error) {

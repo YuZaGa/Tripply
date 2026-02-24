@@ -14,6 +14,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/AuthContext";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
@@ -31,6 +32,7 @@ function CreateTrip() {
     const [startDate, setStartDate] = useState(null);
 
     const router = useRouter();
+    const { getIdToken, signIn } = useAuth();
 
     const handleInputChange = (name, value) => {
         setFormData({
@@ -76,9 +78,20 @@ function CreateTrip() {
             .replace("{pace}", pace)
             .replace("{startDate}", format(startDate, "MMMM do, yyyy"));
 
-        const result = await generateTrip(FINAL_PROMPT);
-
-        SaveAiTrip(result);
+        try {
+            const token = await getIdToken();
+            const result = await generateTrip(FINAL_PROMPT, token);
+            SaveAiTrip(result);
+        } catch (error) {
+            setLoading(false);
+            if (error.needsAuth) {
+                toast("Free limit reached! Sign in for 7 trips/month.", {
+                    action: { label: "Sign In", onClick: signIn },
+                });
+            } else {
+                toast(error.message || "Failed to generate trip.");
+            }
+        }
     };
 
     const SaveAiTrip = async (Tripdata) => {
@@ -223,7 +236,7 @@ function CreateTrip() {
                                             onClick={() =>
                                                 handleInputChange(
                                                     "noOfDays",
-                                                    (formData.noOfDays || 3) + 1
+                                                    Math.min(10, (formData.noOfDays || 3) + 1)
                                                 )
                                             }
                                             className="w-8 h-8 rounded-full border border-charcoal/30 flex items-center justify-center text-charcoal hover:border-burnt-orange hover:text-burnt-orange transition-colors"

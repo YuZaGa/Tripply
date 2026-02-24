@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
+import { AuthProvider } from "@/components/AuthContext";
 
 export const viewport = {
   width: "device-width",
@@ -38,12 +39,14 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </head>
       <body className="antialiased">
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <Toaster />
-          <div className="flex-grow pt-20">{children}</div>
-          <Footer />
-        </div>
+        <AuthProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <Toaster />
+            <div className="flex-grow pt-20">{children}</div>
+            <Footer />
+          </div>
+        </AuthProvider>
 
         {/* Google Maps API for Places Autocomplete */}
         <Script
