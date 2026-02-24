@@ -14,8 +14,8 @@ export default {
 			},
 			colors: {
 				charcoal: '#1A1A1A',
-				'cream-50': '#FAFAF9',
-				'cream-100': '#F5F5F4',
+				'cream-50': '#F9F7F2',
+				'cream-100': '#EFEDE6',
 				'burnt-orange': '#EB5E28',
 				'slate-muted': '#64748B',
 				background: 'hsl(var(--background))',

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sand &amp; Slate - Travel Preferences</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "sand-50": "#F9F7F2", // Very light, warm desaturated cream
+                        "sand-100": "#EFEDE6",
+                        "sand-200": "#E2DFD6",
+                        "terracotta": "#B86B58", // Soft, muted terracotta
+                        "terracotta-dark": "#9A5645",
+                        "slate-dark": "#2C3338", // Deep charcoal/slate
+                        "slate-medium": "#5D656B",
+                        "slate-light": "#8A9298",
+                    },
+                    fontFamily: {
+                        "serif": ["Playfair Display", "serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    boxShadow: {
+                        "card": "0 10px 30px -5px rgba(44, 51, 56, 0.05)",
+                        "float": "0 20px 40px -10px rgba(44, 51, 56, 0.1)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .text-editorial-headline {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.01em;
+        }
+        .custom-checkbox:checked + div {
+            border-color: #B86B58;
+            background-color: #ffffff;box-shadow: 0 10px 30px -5px rgba(184, 107, 88, 0.15);
+        }
+        .custom-checkbox:checked + div .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .tag-checkbox:checked + span {
+            background-color: #B86B58;
+            color: white;
+            border-color: #B86B58;
+        }.option-card-radio:checked + div {
+            border-color: #B86B58;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px -2px rgba(184, 107, 88, 0.15);
+        }
+        .option-card-radio:checked + div .emoji-icon {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="bg-sand-50 text-slate-dark font-sans antialiased overflow-x-hidden selection:bg-terracotta selection:text-white">
+<div class="min-h-screen flex flex-col">
+<nav class="fixed top-0 w-full z-50 bg-sand-50/90 backdrop-blur-md border-b border-slate-dark/5 transition-all duration-300">
+<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center text-terracotta">
+<span class="material-symbols-outlined !text-[28px]">travel_explore</span>
+</div>
+<span class="font-serif font-semibold text-xl tracking-tight text-slate-dark">Sand &amp; Slate</span>
+</div>
+<div class="flex items-center gap-8">
+<a class="hidden md:block text-xs uppercase tracking-widest font-medium text-slate-medium hover:text-terracotta transition-colors" href="#">Journal</a>
+<a class="hidden md:block text-xs uppercase tracking-widest font-medium text-slate-medium hover:text-terracotta transition-colors" href="#">Destinations</a>
+<div class="w-8 h-8 rounded-full bg-sand-200 border border-white overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq3-KPSGshe2XKAP0HCyKLu-8S9QvTegE30UtaIGnVwIvERdb9Cv5uW0Gq7HVPaB5OKwhnogZv6kjUPahNn8N8C2JkjWckzHGK9WjzdZcMfpvJaOcA6ltNjd2nTi_MkEgV-xCtNm7duNCp0zhzOzzBlC9QU9FbGNJWKcwpMVZCvfL3ZRm0gji53J3MHX2aTFQqqlYQhbquLXWo_ZgehC1AFzkGATP1xJSXwPBiLBHUo8Zb-wRGP9CKslPCtG7Kz6gjYnsp0XZkMZ8"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex-grow pt-32 pb-20 px-6">
+<div class="max-w-5xl mx-auto">
+<div class="text-center mb-16 space-y-4">
+<span class="text-xs font-bold tracking-[0.2em] text-terracotta uppercase">Curate Your Journey</span>
+<h1 class="text-editorial-headline text-5xl md:text-6xl text-slate-dark font-medium leading-tight">
+                    How do you wish to <br/><span class="italic text-slate-medium">experience the world?</span>
+</h1>
+<p class="text-slate-medium font-light max-w-xl mx-auto mt-4 text-lg">
+                    Define the parameters of your next escape, and let our editorial AI architect your perfect itinerary.
+                </p>
+</div>
+<form class="space-y-20">
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-slate-dark/10 pb-4">
+<h2 class="font-serif text-2xl text-slate-dark italic">01. Destination &amp; Time</h2>
+<span class="text-xs uppercase tracking-widest text-slate-light">Where &amp; When</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+<div class="md:col-span-2 space-y-2">
+<label class="block text-sm font-medium text-slate-dark uppercase tracking-widest text-xs mb-2">Where to?</label>
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-terracotta transition-colors material-symbols-outlined">search</span>
+<input class="w-full bg-white border-0 border-b-2 border-slate-200 focus:border-terracotta focus:ring-0 text-xl font-serif py-4 pl-12 pr-4 placeholder:text-slate-300 placeholder:italic transition-all duration-300" placeholder="Search destinations (e.g. Kyoto, Amalfi Coast)" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-medium text-slate-dark uppercase tracking-widest text-xs mb-2">Duration</label>
+<div class="relative group">
+<input class="w-full bg-white border-0 border-b-2 border-slate-200 focus:border-terracotta focus:ring-0 text-xl font-serif py-4 px-4 placeholder:text-slate-300 transition-all duration-300" placeholder="Ex. 7 days" type="text"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-400 font-sans pointer-events-none">Days</span>
+</div>
+</div>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-slate-dark/10 pb-4">
+<h2 class="font-serif text-2xl text-slate-dark italic">02. Budget</h2>
+<span class="text-xs uppercase tracking-widest text-slate-light">Per Person</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<label class="cursor-pointer relative group">
+<input class="peer sr-only option-card-radio" name="budget" type="radio" value="conscious"/>
+<div class="p-6 bg-white border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-3 shadow-sm">
+<div class="text-4xl mb-1 emoji-icon transition-transform duration-300">💸</div>
+<h3 class="font-serif text-lg text-slate-dark">Conscious</h3>
+<p class="text-xs text-slate-medium font-light">Efficient spending, local gems, and smart choices.</p>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input checked="" class="peer sr-only option-card-radio" name="budget" type="radio" value="moderate"/>
+<div class="p-6 bg-white border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-3 shadow-sm">
+<div class="text-4xl mb-1 emoji-icon transition-transform duration-300">💰</div>
+<h3 class="font-serif text-lg text-slate-dark">Moderate</h3>
+<p class="text-xs text-slate-medium font-light">Balanced comfort with occasional indulgences.</p>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input class="peer sr-only option-card-radio" name="budget" type="radio" value="luxury"/>
+<div class="p-6 bg-white border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-3 shadow-sm">
+<div class="text-4xl mb-1 emoji-icon transition-transform duration-300">💎</div>
+<h3 class="font-serif text-lg text-slate-dark">Luxury</h3>
+<p class="text-xs text-slate-medium font-light">Uncompromised quality and exclusive experiences.</p>
+</div>
+</label>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-slate-dark/10 pb-4">
+<h2 class="font-serif text-2xl text-slate-dark italic">03. Travel Companions</h2>
+<span class="text-xs uppercase tracking-widest text-slate-light">Who's Coming?</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<label class="cursor-pointer relative group">
+<input class="peer sr-only option-card-radio" name="companion" type="radio" value="solo"/>
+<div class="p-5 bg-white border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-2 shadow-sm">
+<div class="text-3xl mb-1 emoji-icon transition-transform duration-300">🚶</div>
+<h3 class="font-serif text-base text-slate-dark">Just Me</h3>
+<p class="text-[10px] text-slate-medium font-light uppercase tracking-wide">Solo Exploration</p>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input checked="" class="peer sr-only option-card-radio" name="companion" type="radio" value="couple"/>
+<div class="p-5 bg-white border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-2 shadow-sm">
+<div class="text-3xl mb-1 emoji-icon transition-transform duration-300">👫</div>
+<h3 class="font-serif text-base text-slate-dark">A Couple</h3>
+<p class="text-[10px] text-slate-medium font-light uppercase tracking-wide">Romantic Getaway</p>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input class="peer sr-only option-card-radio" name="companion" type="radio" value="family"/>
+<div class="p-5 bg-white border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-2 shadow-sm">
+<div class="text-3xl mb-1 emoji-icon transition-transform duration-300">👨‍👩‍👧‍👦</div>
+<h3 class="font-serif text-base text-slate-dark">Family</h3>
+<p class="text-[10px] text-slate-medium font-light uppercase tracking-wide">All Ages</p>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input class="peer sr-only option-card-radio" name="companion" type="radio" value="friends"/>
+<div class="p-5 bg-white border border-transparent rounded-sm hover:border-slate-200 transition-all duration-300 h-full flex flex-col items-center text-center space-y-2 shadow-sm">
+<div class="text-3xl mb-1 emoji-icon transition-transform duration-300">👯‍♀️</div>
+<h3 class="font-serif text-base text-slate-dark">Friends</h3>
+<p class="text-[10px] text-slate-medium font-light uppercase tracking-wide">Group Adventure</p>
+</div>
+</label>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-slate-dark/10 pb-4">
+<h2 class="font-serif text-2xl text-slate-dark italic">04. Travel Style</h2>
+<span class="text-xs uppercase tracking-widest text-slate-light">Select One</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<label class="group cursor-pointer relative block">
+<input class="peer sr-only custom-checkbox" name="travel_style" type="radio" value="wanderer"/>
+<div class="relative h-[420px] bg-white border border-transparent transition-all duration-300 peer-checked:border-terracotta peer-checked:shadow-card shadow-sm overflow-hidden">
+<div class="h-64 overflow-hidden relative">
+<div class="absolute inset-0 bg-slate-dark/10 group-hover:bg-transparent transition-colors z-10"></div>
+<img alt="Winding road in nature" class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5mD_bHBAyYT_R0Ayir5XV_FKDgEL1lmdxV6ooXwILJ7wbbGMaMLcu8VKADKaa2-VK9a5_DlLEPrydas62JRowdeh53zxC9t6eEneywVOMOuYnQwcJv0hnwBmgk_jUZl24pdBwKwVx_zbUDdfA2GpYioGx9s_Gjs2E76U6-y1ypUv-HQsyXFAE8_KprMLFv2OVZMCUzgcnT35_D84h5IfnUZOFB47BuC-PHjZ6R8F65pyOzDU5Klx8zNka3B64BIKck-3BuLH1ym8"/>
+<div class="absolute top-4 right-4 z-20 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-md check-icon opacity-0 transition-all duration-300 transform scale-75 text-terracotta">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-serif text-xl mb-2 text-slate-dark">The Wanderer</h3>
+<p class="text-sm text-slate-medium leading-relaxed font-light">
+                                        You prefer the path less traveled. Hidden gems, scenic routes, and spontaneous discoveries define your journey.
+                                    </p>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-terracotta transform scale-x-0 group-hover:scale-x-100 peer-checked:scale-x-100 transition-transform duration-300 origin-left"></div>
+</div>
+</label>
+<label class="group cursor-pointer relative block">
+<input checked="" class="peer sr-only custom-checkbox" name="travel_style" type="radio" value="curator"/>
+<div class="relative h-[420px] bg-white border border-transparent transition-all duration-300 peer-checked:border-terracotta peer-checked:shadow-card shadow-sm overflow-hidden">
+<div class="h-64 overflow-hidden relative">
+<div class="absolute inset-0 bg-slate-dark/10 group-hover:bg-transparent transition-colors z-10"></div>
+<img alt="Museum interior" class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz2E03COe1l5Ha1Th6BETpu8zTWdulN3JOukKZe2ic8J4VcpCRAe1M4a2YRDPWlDbLxqELrCX6Yxm9Qang_oLWGVTsQPY2sqY36h1o_5h1lB7rq3xhN1SQ7XnfRKiobMxQ-cQ2dKtw_vqipNAPJjV7_mv5P8dZvta3KsjRkPMBoxToTwkHkoBdToMfyyVUinIQCDV3h49HzUGhst9R3MnXnEwrs4hp-W0vyA3YsP0ykTsIQI15UZDFM8vq1ELzAEtR9_h2t7iS1-s"/>
+<div class="absolute top-4 right-4 z-20 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-md check-icon opacity-0 transition-all duration-300 transform scale-75 text-terracotta">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-serif text-xl mb-2 text-slate-dark">The Curator</h3>
+<p class="text-sm text-slate-medium leading-relaxed font-light">
+                                        History, art, and culture are your compass. You seek deep understanding, guided tours, and architectural marvels.
+                                    </p>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-terracotta transform scale-x-0 group-hover:scale-x-100 peer-checked:scale-x-100 transition-transform duration-300 origin-left"></div>
+</div>
+</label>
+<label class="group cursor-pointer relative block">
+<input class="peer sr-only custom-checkbox" name="travel_style" type="radio" value="epicurean"/>
+<div class="relative h-[420px] bg-white border border-transparent transition-all duration-300 peer-checked:border-terracotta peer-checked:shadow-card shadow-sm overflow-hidden">
+<div class="h-64 overflow-hidden relative">
+<div class="absolute inset-0 bg-slate-dark/10 group-hover:bg-transparent transition-colors z-10"></div>
+<img alt="Fine dining plate" class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEdCV_N3YJFMY278NEVoH1xt-57_X-VeFKd5ag3Rnp-ELdA9bkZvzjIktgRa75lrutGwCmGyO6dEjpAiozgL6UhryFT0H3obPoLRscM_YaosxwunRyTHFfCaf8r6uTsI6yLCcIVVRNnxqwYPt6g6ZBx_ysaDAHCugA_7VkTvVQK82N-58NxrsIU37X5F2QH8IvccctUbcLAKvOZE9A_u_y7muZ3hmbj7is4_CwJVJcy1B61g4FQJhnogSK_c-2HSf0Z0dzqNqzcLE"/>
+<div class="absolute top-4 right-4 z-20 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-md check-icon opacity-0 transition-all duration-300 transform scale-75 text-terracotta">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="font-serif text-xl mb-2 text-slate-dark">The Epicurean</h3>
+<p class="text-sm text-slate-medium leading-relaxed font-light">
+                                        You travel taste-buds first. Michelin stars, local street food, and wine tastings are the highlights of your trip.
+                                    </p>
+</div>
+<div class="absolute bottom-0 left-0 w-full h-1 bg-terracotta transform scale-x-0 group-hover:scale-x-100 peer-checked:scale-x-100 transition-transform duration-300 origin-left"></div>
+</div>
+</label>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-slate-dark/10 pb-4">
+<h2 class="font-serif text-2xl text-slate-dark italic">05. Specific Interests</h2>
+<span class="text-xs uppercase tracking-widest text-slate-light">Select Multiple</span>
+</div>
+<div class="flex flex-wrap gap-3">
+<label class="cursor-pointer">
+<input checked="" class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Architecture</span>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Fine Dining</span>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Modern Art</span>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Hiking</span>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Nightlife</span>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Photography</span>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Coffee Culture</span>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">Wellness &amp; Spa</span>
+</label>
+<label class="cursor-pointer">
+<input class="sr-only tag-checkbox" type="checkbox"/>
+<span class="inline-block px-6 py-2 border border-slate-dark/20 text-slate-medium rounded-full text-sm transition-all duration-200 hover:border-terracotta hover:text-terracotta">History</span>
+</label>
+</div>
+</section>
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-slate-dark/10 pb-4">
+<h2 class="font-serif text-2xl text-slate-dark italic">06. Travel Pace</h2>
+<span class="text-xs uppercase tracking-widest text-slate-light">Intensity</span>
+</div>
+<div class="relative pt-8 pb-4 px-2">
+<input class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-terracotta" max="100" min="1" type="range" value="40"/>
+<div class="flex justify-between mt-4 text-xs uppercase tracking-widest text-slate-medium font-medium">
+<span>Relaxed</span>
+<span>Balanced</span>
+<span>Intense</span>
+</div>
+</div>
+</section>
+<div class="pt-8 flex flex-col items-center">
+<button class="group relative inline-flex items-center justify-center bg-terracotta hover:bg-terracotta-dark text-white text-lg font-medium px-12 py-5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" type="button">
+<span class="font-serif italic pr-2">Compose Itinerary</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<p class="mt-6 text-sm text-slate-light italic font-serif">Estimated build time: <span class="text-terracotta">~30 seconds</span></p>
+</div>
+</form>
+</div>
+</main>
+<footer class="border-t border-slate-dark/5 py-12 bg-sand-50">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+<div class="flex items-center gap-2 mb-4 md:mb-0 opacity-50 grayscale">
+<span class="material-symbols-outlined text-[20px]">travel_explore</span>
+<span class="font-serif font-bold text-lg">Sand &amp; Slate</span>
+</div>
+<div class="text-slate-light text-xs font-medium tracking-wider">
+                © 2024 AI TRAVEL LABS. ALL RIGHTS RESERVED.
+            </div>
+</div>
+</footer>
+</div>
+</body></html>
