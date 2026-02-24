@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { GetPlaceDetails } from "@/service/GlobalApi";
-import { Link } from "react-router-dom";
+
 
 const PHOTO_REF_URL =
   "https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=600&maxWidthPx=600&key=" +
-  import.meta.env.VITE_GOOGLE_PLACE_API_KEY;
+  process.env.NEXT_PUBLIC_GOOGLE_PLACE_API_KEY;
 
 function HotelCard({ hotel }) {
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -30,7 +30,7 @@ function HotelCard({ hotel }) {
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${hotel?.hotelName},${hotel?.hotelAddress}`;
 
   return (
-    <Link to={mapsUrl} target="_blank" className="block">
+    <a href={mapsUrl} target="_blank" className="block">
       <div className="bg-white shadow-sm group">
         <div
           className="relative h-56 bg-cover bg-center"
@@ -73,7 +73,7 @@ function HotelCard({ hotel }) {
           </span>
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 

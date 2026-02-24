@@ -3,7 +3,7 @@ import { GetPlaceDetails } from "@/service/GlobalApi";
 
 const PHOTO_REF_URL =
   "https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=600&maxWidthPx=600&key=" +
-  import.meta.env.VITE_GOOGLE_PLACE_API_KEY;
+  process.env.NEXT_PUBLIC_GOOGLE_PLACE_API_KEY;
 
 function InfoSection({ trip, activeDay, setActiveDay }) {
   const [photoUrl, setPhotoUrl] = useState("/placeholder.jpg");
