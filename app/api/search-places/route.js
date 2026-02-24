@@ -21,7 +21,7 @@ export async function POST(request) {
     const ip =
         request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 
-    if (!checkRateLimit(ip)) {
+    if (process.env.NODE_ENV === "production" && !checkRateLimit(ip)) {
         return NextResponse.json(
             { error: "Rate limit exceeded. Try again later." },
             { status: 429 }
