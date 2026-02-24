@@ -84,7 +84,8 @@ function CreateTrip() {
         ...formData,
         travelStyle,
         interests,
-        pace
+        pace,
+        startDate: startDate ? format(startDate, 'MMMM do, yyyy') : null
       },
       tripData: JSON.parse(Tripdata),
       id: docId,
@@ -103,7 +104,7 @@ function CreateTrip() {
   }
 
   return (
-    <div className="bg-cream-50 text-charcoal font-sans antialiased min-h-screen pt-24 pb-20 px-6">
+    <div className="bg-cream-50 text-charcoal font-sans antialiased min-h-screen pt-4 pb-20 px-6">
       <style>{`
         .custom-checkbox:checked + div { border-color: #EB5E28; background-color: #ffffff; box-shadow: 0 10px 30px -5px rgba(235, 94, 40, 0.15); }
         .custom-checkbox:checked + div .check-icon { opacity: 1; transform: scale(1); }

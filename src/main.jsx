@@ -15,7 +15,7 @@ const Layout = () => {
     <div className="flex flex-col min-h-screen">
       <Header />
       <Toaster />
-      <div className="flex-grow">
+      <div className="flex-grow pt-20">
         <Outlet />
       </div>
       <Footer />

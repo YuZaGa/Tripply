@@ -1,118 +1,140 @@
-import { Button } from "@/components/ui/button";
+import React, { useEffect, useState } from "react";
 import { GetPlaceDetails } from "@/service/GlobalApi";
-import { useEffect, useState } from "react";
-import { IoIosSend } from "react-icons/io";
-import { FaRegCopy } from "react-icons/fa"; 
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 const PHOTO_REF_URL =
   "https://places.googleapis.com/v1/{NAME}/media?maxHeightPx=600&maxWidthPx=600&key=" +
   import.meta.env.VITE_GOOGLE_PLACE_API_KEY;
-function InfoSection(trip) {
-  trip = trip?.trip;
 
-  const [photoUrl, setPhotoUrl] = useState();
-  const [link, setLink] = useState(window.location.href);
+function InfoSection({ trip }) {
+  const [photoUrl, setPhotoUrl] = useState("/placeholder.jpg");
+  const [activeDay, setActiveDay] = useState(1);
+  const tripData = trip?.tripData?.tripDetails;
+  const userSelection = trip?.userselection;
 
   useEffect(() => {
     trip && GetPlacePhoto();
   }, [trip]);
 
   const GetPlacePhoto = async () => {
-    const data = {
-      textQuery: trip?.userselection?.location?.label,
-    };
-    const result = await GetPlaceDetails(data).then((resp) => {
-
-      const photoURL = PHOTO_REF_URL.replace(
-        "{NAME}",
-        resp.data.places[0].photos[3].name
-      );
-      setPhotoUrl(photoURL);
-    });
+    if (!userSelection?.location?.label) return;
+    const data = { textQuery: userSelection?.location?.label };
+    try {
+      const resp = await GetPlaceDetails(data);
+      if (resp.data.places[0]?.photos[3]?.name) {
+        const photoURL = PHOTO_REF_URL.replace("{NAME}", resp.data.places[0].photos[3].name);
+        setPhotoUrl(photoURL);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(link).then(() => {
-      alert("Link copied to clipboard!");
-    }).catch((err) => {
-      console.error("Failed to copy: ", err);
-    });
-  };
+  const locationParts = tripData?.location?.split(",") || userSelection?.location?.label?.split(",") || ["Unknown", "Location"];
+  const mainLocation = locationParts[0];
+  const subLocation = tripData?.theme || "Chronicles";
+  // Extract date from itinerary first day, or userSelection
+  const firstDate = trip?.tripData?.itinerary?.[0]?.date || "";
+  // Try to extract month + year from the date string like "Thursday, Oct 12" -> derive year from context
+  const startDateStr = firstDate ? firstDate.split(", ").slice(1).join(", ") : (userSelection?.startDate || "");
+
+  const bgImage = "url('" + photoUrl + "')";
+
   return (
-    <div>
-      <img
-        src={photoUrl}
-        className="h-[340px] w-full object-cover rounded-xl"
-      />
-      <div className="flex justify-between items-center">
-        <div className="my-5 flex flex-col gap-2">
-          <h2 className="fon-bold text-2xl">
-            {trip?.userselection?.location?.label}
-          </h2>
-          <div className="flex gap-5">
-            <h2 className="p-1 px-3 bg-gray-200 rounded-full text-gray-500 text-xs md:text-md">
-              {" "}
-              📅 {trip?.userselection?.noOfDays + " Day"}
-            </h2>
-            <h2 className="p-1 px-3 bg-gray-200 rounded-full text-gray-500 text-xs md:text-md">
-              {" "}
-              🤑 {trip?.userselection?.budget + " Budget"}
-            </h2>
-            <h2 className="p-1 px-3 bg-gray-200 rounded-full text-gray-500 text-xs md:text-md">
-              {" "}
-              🚶🏽‍♂️ {trip?.userselection?.traveler}
-            </h2>
+    <div className="space-y-8">
+      {/* Magazine Cover Card */}
+      <div className="group relative overflow-hidden bg-white shadow-sm transition-all duration-500 hover:-translate-y-1">
+        <div
+          className="h-64 w-full bg-cover bg-center relative"
+          style={{ backgroundImage: bgImage }}
+        >
+          <div className="absolute inset-0 bg-stone-900/20 group-hover:bg-stone-900/10 transition-colors"></div>
+          <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 text-[10px] font-bold tracking-widest uppercase">
+            {startDateStr}
           </div>
         </div>
-        <Dialog>
-      <DialogTrigger asChild>
-        <Button ><IoIosSend /></Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Share link</DialogTitle>
-          <DialogDescription>
-            Anyone who has this link will be able to view this.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2">
-            <Label htmlFor="link" className="sr-only">
-              Link
-            </Label>
-            <Input
-              id="link"
-              defaultValue={link}
-              readOnly
-            />
+
+        <div className="p-6 relative">
+          <div className="absolute -top-10 left-6 bg-burnt-orange text-white p-3 shadow-lg">
+            <span className="material-symbols-outlined text-2xl">near_me</span>
           </div>
-          <Button size="sm" className="px-3" onClick={handleCopy}>
-            <span className=""><FaRegCopy/></span>
-            
-          </Button>
+
+          <h1 className="font-serif font-bold text-4xl leading-none text-charcoal mb-2 mt-2">
+            {mainLocation}<br />
+            <span className="text-2xl italic font-normal text-slate-muted">{subLocation}</span>
+          </h1>
+
+          <div className="w-10 h-1 bg-burnt-orange my-4"></div>
+
+          <div className="mt-6">
+            <div className="text-left">
+              <p className="text-xs text-slate-muted uppercase tracking-wider">Est. Budget</p>
+              <p className="font-serif text-lg font-bold text-burnt-orange mt-1">
+                {tripData?.estimatedBudget
+                  ? tripData.estimatedBudget
+                  : "Essential budget for " + (userSelection?.traveler || "travelers")
+                }
+              </p>
+            </div>
+          </div>
         </div>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
       </div>
+
+      {/* Navigation Links inside Sidebar */}
+      <nav className="pl-2 border-l border-stone-200 hidden lg:block">
+        <ul className="space-y-4">
+          {trip?.tripData?.itinerary?.map((day, index) => {
+            const isActive = activeDay === day.day;
+            return (
+              <li key={index}>
+                <a
+                  className={"group flex items-center gap-3 transition-colors " + (isActive ? "text-burnt-orange" : "text-slate-muted hover:text-charcoal")}
+                  href={"#day" + day.day}
+                  onClick={() => setActiveDay(day.day)}
+                >
+                  <span className={"text-xs font-bold font-serif italic " + (isActive ? "" : "opacity-50")}>{"0" + day.day}</span>
+                  <span className={(isActive ? "font-bold" : "font-medium") + " text-sm uppercase tracking-wider group-hover:translate-x-1 transition-transform line-clamp-1"}>{day.theme}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      {/* Weather Widget */}
+      {tripData?.weatherForecast && (
+        <div className="bg-gradient-to-br from-orange-50 to-orange-100/50 p-6 border border-orange-100 shadow-sm relative overflow-hidden group">
+          <div className="absolute -right-6 -top-6 text-orange-200 opacity-20 group-hover:opacity-30 transition-opacity">
+            <span className="material-symbols-outlined text-9xl">
+              {(tripData.weatherForecast.condition || "").toLowerCase().includes("rain") ? "rainy"
+                : (tripData.weatherForecast.condition || "").toLowerCase().includes("cloud") ? "cloud"
+                  : (tripData.weatherForecast.condition || "").toLowerCase().includes("snow") ? "ac_unit"
+                    : "wb_sunny"}
+            </span>
+          </div>
+          <div className="relative z-10">
+            <div className="flex justify-between items-end mb-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-orange-800/60">Forecast</span>
+              <span className="material-symbols-outlined text-3xl text-orange-400">
+                {(tripData.weatherForecast.condition || "").toLowerCase().includes("rain") ? "rainy"
+                  : (tripData.weatherForecast.condition || "").toLowerCase().includes("cloud") ? "cloud"
+                    : (tripData.weatherForecast.condition || "").toLowerCase().includes("snow") ? "ac_unit"
+                      : "wb_sunny"}
+              </span>
+            </div>
+            <div className="flex items-baseline gap-2">
+              <span className="font-serif text-5xl text-charcoal">
+                {tripData.weatherForecast.temperature
+                  ? tripData.weatherForecast.temperature.split(" ")[0]
+                  : "--"}
+              </span>
+              <span className="text-lg text-slate-muted font-serif italic truncate">{mainLocation}</span>
+            </div>
+            <p className="text-xs text-slate-muted mt-2 uppercase tracking-wide">
+              {tripData.weatherForecast.condition || "Check local forecast"}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

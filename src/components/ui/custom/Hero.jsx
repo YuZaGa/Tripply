@@ -12,7 +12,7 @@ function Hero() {
 
   return (
     <main
-      className="flex-grow flex items-center justify-center relative pt-24 overflow-hidden min-h-screen"
+      className="flex-grow flex items-center justify-center relative pt-4 overflow-hidden min-h-screen"
       onMouseMove={handleParallax}
     >
       <div className="absolute inset-0 pointer-events-none -z-10 bg-cream-50">
