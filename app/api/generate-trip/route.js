@@ -1,6 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 
+// Allow up to 60s for Gemini to respond (Vercel Hobby plan max)
+export const maxDuration = 60;
+
 // Simple in-memory rate limiter (resets on cold start)
 const rateLimitMap = new Map();
 const RATE_LIMIT = 5;
